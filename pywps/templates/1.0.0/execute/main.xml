@@ -91,7 +91,7 @@
             <ows:Title>{{ get_translation(output, "title", language) }}</ows:Title>
             <ows:Abstract>{{ get_translation(output, "abstract", language) }}</ows:Abstract>
             {% if output.type == "reference" %}
-            <wps:Reference href="{{ output.href }}" mimeType="{{ output.mimetype }}" encoding="{{ output.encoding }}" schema="{{ output.schema }}"/>
+            <wps:Reference href="{{ output.href }}" mimeType="{{ output.mimetype }}" {% if output.layer %}layer="{{ output.layer }}"{% endif %} encoding="{{ output.encoding }}" schema="{{ output.schema }}"/>
             {% elif output.type == "complex" %}
 			<wps:Data>
                     <wps:ComplexData mimeType="{{ output.mimetype }}" encoding="{{ output.encoding }}" schema="{{ output.schema }}">{{ output.data | safe }}</wps:ComplexData>

@@ -242,7 +242,7 @@ class WMSOutput(ComplexOutput):
                  metadata=None, as_reference=False, mode=MODE.NONE,
                  translations=None, layer='', wms_addr=''):
 
-        ComplexOutput.__init__(identifier, title, supported_formats,
+        ComplexOutput.__init__(self, identifier, title, supported_formats,
                  data_format, abstract, keywords, workdir, metadata,
                  as_reference, mode, translations)
 
@@ -261,7 +261,7 @@ class WMSOutput(ComplexOutput):
             "title": self.title,
             "abstract": self.abstract,
             'keywords': self.keywords,
-            'type': 'complex',
+            'type': 'reference',
             'supported_formats': [frmt.json for frmt in self.supported_formats],
             'asreference': self.as_reference,
             'data_format': self.data_format.json if self.data_format else None,
