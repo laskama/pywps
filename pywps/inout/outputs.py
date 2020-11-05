@@ -235,6 +235,55 @@ class ComplexOutput(basic.ComplexOutput):
         return data
 
 
+class WMSOutput(ComplexOutput):
+
+    def __init__(self, identifier, title, supported_formats=None,
+                 data_format=None, abstract='', keywords=[], workdir=None,
+                 metadata=None, as_reference=False, mode=MODE.NONE,
+                 translations=None, layer='', wms_addr=''):
+
+        ComplexOutput.__init__(identifier, title, supported_formats,
+                 data_format, abstract, keywords, workdir, metadata,
+                 as_reference, mode, translations)
+
+        self.layer = layer
+        self.wms_addr = wms_addr
+
+    @property
+    def json(self):
+        """Get JSON representation of the output
+        """
+
+        data = {
+            "identifier": self.identifier,
+            "href": self.wms_addr,
+            "layer": self.layer,
+            "title": self.title,
+            "abstract": self.abstract,
+            'keywords': self.keywords,
+            'type': 'complex',
+            'supported_formats': [frmt.json for frmt in self.supported_formats],
+            'asreference': self.as_reference,
+            'data_format': self.data_format.json if self.data_format else None,
+            'file': self.file if self.prop == 'file' else None,
+            'workdir': self.workdir,
+            'mode': self.valid_mode,
+            'min_occurs': self.min_occurs,
+            'max_occurs': self.max_occurs,
+            'translations': self.translations,
+        }
+
+        if self.data_format:
+            if self.data_format.mime_type:
+                data['mimetype'] = self.data_format.mime_type
+            if self.data_format.encoding:
+                data['encoding'] = self.data_format.encoding
+            if self.data_format.schema:
+                data['schema'] = self.data_format.schema
+
+        return data
+
+
 class LiteralOutput(basic.LiteralOutput):
     """
     :param identifier: The name of this output.
